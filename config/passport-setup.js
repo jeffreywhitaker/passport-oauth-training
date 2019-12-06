@@ -12,12 +12,18 @@ passport.use(
     }, (accessToken, refreshToken, profile, done) => {
         // passport callback function
         console.log('passport callback function fired')
-        console.log('profile')
-        new User({
-            username: profile.displayName,
-            googleId: profile.id
-        }).save().then((newUser) => {
-            console.log('new user created:' + newUser)
-        })
+        console.log(profile)
+        try {
+            thisUser = User.create({
+                username: profile.displayName,
+                googleId: profile.id
+            }).then((thisUser) => { 
+                console.log(thisUser)
+                return thisUser
+            })
+        }
+        catch (err) {
+            console.log(err)
+        }
     })
 )

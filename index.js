@@ -10,8 +10,14 @@ const app = express();
 app.set('view engine', 'ejs')
 
 // connect to mongodb
-mongoose.connect(keys.mongodb.dbURI, () => {
-    console.log('connected to mongodb')
+mongoose.connect(keys.mongodb.dbURI, { useNewUrlParser: true }, (err) => {
+    if (err) {
+        console.log('mongoose connection failed');
+        console.log(err)
+    } else {
+        console.log('connected to mongodb')
+    }
+    
 })
 
 //set up routes
