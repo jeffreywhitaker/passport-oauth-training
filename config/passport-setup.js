@@ -5,15 +5,15 @@ const User = require("../models/user-model");
 
 passport.serializeUser((user, done) => {
   // pass on the user id
-  done(null, user.id)
-})
+  done(null, user.id);
+});
 
 passport.deserializeUser((id, done) => {
   // find user and pass them on
-  User.findById(id).then((user) => {
-    done(null, user)
-  })
-})
+  User.findById(id).then(user => {
+    done(null, user);
+  });
+});
 
 passport.use(
   new GoogleStrategy(
@@ -30,13 +30,14 @@ passport.use(
         if (existingUser) {
           //if they exist, get them
           console.log("existing user found:", existingUser);
-          done(null, existingUser)
+          done(null, existingUser);
         } else {
           // if not, create user in db
           try {
             newUser = User.create({
               username: profile.displayName,
-              googleId: profile.id
+              googleId: profile.id,
+              thumbnail: profile._json.image.url
             }).then(newUser => {
               console.log("New user created:", newUser);
               done(null, newUser);
