@@ -27,6 +27,7 @@ passport.use(
       // passport callback function
       // check if user already exists
       User.findOne({ googleId: profile.id }).then(existingUser => {
+        console.log("profile:", profile);
         if (existingUser) {
           //if they exist, get them
           console.log("existing user found:", existingUser);
@@ -37,7 +38,7 @@ passport.use(
             newUser = User.create({
               username: profile.displayName,
               googleId: profile.id,
-              thumbnail: profile._json.image.url
+              thumbnail: profile._json.picture
             }).then(newUser => {
               console.log("New user created:", newUser);
               done(null, newUser);
