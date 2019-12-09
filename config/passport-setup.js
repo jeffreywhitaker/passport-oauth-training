@@ -1,5 +1,6 @@
 const passport = require("passport");
 const GoogleStrategy = require("passport-google-oauth20");
+const LocalStrategy = require("passport-local").Strategy;
 const keys = require("./keys");
 const User = require("../models/user-model");
 
@@ -10,10 +11,12 @@ passport.serializeUser((user, done) => {
 
 passport.deserializeUser((id, done) => {
   // find user and pass them on
-  User.findById(id).then(user => {
-    done(null, user);
+  User.findById(id).then(err, user => {
+    done(err, user);
   });
 });
+
+passport.use(new LocalStrategy());
 
 passport.use(
   new GoogleStrategy(

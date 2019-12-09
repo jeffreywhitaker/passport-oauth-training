@@ -7,10 +7,22 @@ const keys = require("./config/keys");
 const cookieSession = require("cookie-session");
 const passport = require("passport");
 
+const morgan = require("morgan");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const session = require("express-session");
+
+const configDB = require("express-session");
+
 const app = express();
 
 // set up view engine
 app.set("view engine", "ejs");
+
+// set up morgan and cookie/body parser
+app.use(morgan("dev"));
+app.use(cookieParser());
+app.use(bodyParser());
 
 // make the cookie key
 app.use(
@@ -20,7 +32,8 @@ app.use(
   })
 );
 
-// initialize passport
+// initialize passport and setup
+app.use(session({ secret: "testSecret" }));
 app.use(passport.initialize());
 app.use(passport.session());
 
